@@ -55,6 +55,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Populate description
         document.getElementById('vehicle-description').textContent = vehicle.description || 'Sem descrição detalhada.';
+
+        // --- Add Structured Data for SEO ---
+        const structuredData = {
+            "@context": "https://schema.org",
+            "@type": "Vehicle",
+            "name": vehicle.title,
+            "description": vehicle.description,
+            "image": imageUrl,
+            "brand": {
+                "@type": "Brand",
+                "name": vehicle.make
+            },
+            "model": vehicle.model,
+            "vehicleModelDate": vehicle.year,
+            "mileageFromOdometer": {
+                "@type": "QuantitativeValue",
+                "value": vehicle.mileage_km,
+                "unitCode": "KMT"
+            },
+            "fuelType": vehicle.fuel_type,
+            "vehicleTransmission": vehicle.transmission,
+            "offers": {
+                "@type": "Offer",
+                "price": vehicle.price_eur,
+                "priceCurrency": "EUR",
+                "availability": "https://schema.org/InStock"
+            }
+        };
+
+        // Remove existing structured data script if it exists to avoid duplicates
+        const existingScript = document.querySelector('script[type="application/ld+json"]');
+        if (existingScript) {
+            existingScript.remove();
+        }
+
+        const script = document.createElement('script');
+        script.type = 'application/ld+json';
+        script.textContent = JSON.stringify(structuredData, null, 2); // Pretty print for readability
+        document.head.appendChild(script);
     };
 
     fetchVehicleDetails();

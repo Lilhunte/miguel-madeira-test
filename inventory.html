@@ -61,6 +61,42 @@
             <p class="text-brand-gray mt-4">Explore o nosso inventário de carros e motas.</p>
         </div>
 
+        <!-- Filter and Search Bar -->
+        <form id="filter-form" class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 items-end">
+                <!-- Search Input -->
+                <div class="md:col-span-3 lg:col-span-2">
+                    <label for="search-input" class="block text-sm font-medium text-gray-700">Procurar</label>
+                    <input type="text" id="search-input" name="search" placeholder="Ex: BMW, C200, M1000RR..." class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <!-- Sort Select -->
+                <div>
+                    <label for="sort-select" class="block text-sm font-medium text-gray-700">Ordenar por</label>
+                    <select id="sort-select" name="sort" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                        <option value="created_at.desc">Mais Recentes</option>
+                        <option value="price_eur.asc">Preço (Baixo para Alto)</option>
+                        <option value="price_eur.desc">Preço (Alto para Baixo)</option>
+                        <option value="mileage_km.asc">Quilometragem (Baixa para Alta)</option>
+                    </select>
+                </div>
+                <!-- Fuel Type Filter -->
+                <div>
+                    <label for="fuel-filter" class="block text-sm font-medium text-gray-700">Combustível</label>
+                    <select id="fuel-filter" name="fuel_type" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                        <option value="">Todos</option>
+                        <option value="Gasoline">Gasolina</option>
+                        <option value="Diesel">Diesel</option>
+                        <option value="Electric">Elétrico</option>
+                        <option value="Hybrid">Híbrido</option>
+                    </select>
+                </div>
+                <!-- Reset Button -->
+                <div>
+                    <button type="reset" id="reset-btn" class="w-full bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-700">Limpar</button>
+                </div>
+            </div>
+        </form>
+
         <!-- Inventory Grid -->
         <div id="inventory-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <!-- Vehicle cards will be injected here by inventory.js -->
@@ -96,9 +132,12 @@
                 <div class="bg-gray-200 p-3 rounded-lg self-start max-w-xs text-sm">Olá! Como posso ajudar?</div>
             </main>
             <footer class="p-2 border-t">
-                <div class="flex">
-                    <input type="text" id="chat-input" placeholder="Escreva a sua mensagem..." class="flex-grow p-2 border rounded-l-lg focus:outline-none focus:ring-2 focus:ring-brand-primary">
-                    <button id="chat-send-btn" class="bg-brand-primary text-white px-4 rounded-r-lg hover:bg-blue-700">Enviar</button>
+                <div class="flex items-center bg-white border rounded-lg overflow-hidden">
+                    <button id="chat-mic-btn" class="p-2 text-gray-500 hover:text-brand-primary focus:outline-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
+                    </button>
+                    <input type="text" id="chat-input" placeholder="Escreva ou fale..." class="flex-grow p-2 border-none focus:outline-none focus:ring-0 bg-transparent">
+                    <button id="chat-send-btn" class="bg-brand-primary text-white font-bold py-2 px-4 hover:bg-blue-700 transition-colors self-stretch">Enviar</button>
                 </div>
             </footer>
         </div>

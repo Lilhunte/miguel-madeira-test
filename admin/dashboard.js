@@ -146,40 +146,75 @@ vehicleForm.addEventListener('submit', async (event) => {
     const formData = new FormData(vehicleForm);
     const vehicleData = Object.fromEntries(formData.entries());
     const id = vehicleIdInput.value;
+    const imageFiles = vehicleForm.elements.images.files;
 
     // Convert empty strings to null for nullable fields
     for (const key in vehicleData) {
-        if (vehicleData[key] === '') {
+        if (vehicleData[key] === '' && key !== 'id') {
             vehicleData[key] = null;
         }
     }
+    delete vehicleData.images; // Remove the file input value from the data object
 
-    // TODO: Handle image uploads to Supabase Storage and get URLs
-    // This is a complex step that requires more setup. For now, we'll ignore the 'images' field.
-    delete vehicleData.images;
+    try {
+        let vehicleId = id;
+        // If it's a new vehicle, generate an ID first.
+        if (!vehicleId) {
+            vehicleId = `veh-${Date.now()}-${vehicleData.make.toLowerCase().replace(/ /g, '-')}`;
+        }
+        vehicleData.id = vehicleId;
 
-    let result;
-    if (id) {
-        // Update
-        delete vehicleData['vehicle-id']; // Don't send this to Supabase
-        result = await _supabase.from('vehicles').update(vehicleData).eq('id', id);
-    } else {
-        // Create
-        vehicleData.id = `veh-${Date.now()}-${vehicleData.make.toLowerCase().replace(/ /g, '-')}`;
-        result = await _supabase.from('vehicles').insert([vehicleData]);
-    }
+        // --- Handle Image Uploads ---
+        // NOTE: Ensure a 'vehicle-images' bucket exists in your Supabase project with public read access.
+        if (imageFiles.length > 0) {
+            submitButton.textContent = 'A carregar imagens...';
+            const uploadPromises = Array.from(imageFiles).map(file => {
+                const filePath = `public/${vehicleId}/${file.name}`;
+                return _supabase.storage.from('vehicle-images').upload(filePath, file, {
+                    cacheControl: '3600',
+                    upsert: true // Overwrite file if it exists
+                });
+            });
 
-    const { error } = result;
-    if (error) {
-        alert(`Erro: ${error.message}`);
-        console.error(error);
-    } else {
+            const uploadResults = await Promise.all(uploadPromises);
+
+            // Check for errors during upload
+            const uploadErrors = uploadResults.filter(result => result.error);
+            if (uploadErrors.length > 0) {
+                throw new Error(`Error uploading images: ${uploadErrors.map(e => e.error.message).join(', ')}`);
+            }
+
+            // Get public URLs for all uploaded images
+            const mediaArray = uploadResults.map(result => {
+                const { data: { publicUrl } } = _supabase.storage.from('vehicle-images').getPublicUrl(result.data.path);
+                return { type: 'image', url: publicUrl };
+            });
+
+            vehicleData.media = mediaArray;
+        }
+        // --- End Image Handling ---
+
+        submitButton.textContent = 'A salvar dados...';
+
+        // Upsert the vehicle data (works for both create and update)
+        // Use the hidden vehicle-id field to determine if it's an update or insert.
+        delete vehicleData['vehicle-id'];
+        const { error } = await _supabase.from('vehicles').upsert(vehicleData, { onConflict: 'id' });
+
+        if (error) {
+            throw error;
+        }
+
         hideForm();
         fetchVehicles(); // Refresh table
-    }
 
-    submitButton.disabled = false;
-    submitButton.textContent = 'Salvar Viatura';
+    } catch (error) {
+        alert(`Erro: ${error.message}`);
+        console.error(error);
+    } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = 'Salvar Viatura';
+    }
 });
 
 // DELETE/EDIT event delegation
@@ -211,3 +246,55 @@ inventoryTableBody.addEventListener('click', async (event) => {
         }
     }
 });
+
+// --- Password Change Modal Logic ---
+const changePasswordBtn = document.getElementById('change-password-btn');
+const passwordModal = document.getElementById('password-modal');
+const passwordForm = document.getElementById('password-form');
+const cancelPasswordBtn = document.getElementById('cancel-password-btn');
+const passwordError = document.getElementById('password-error');
+
+if(changePasswordBtn && passwordModal && passwordForm) { // Check if the elements exist
+    const openPasswordModal = () => {
+        passwordModal.classList.remove('hidden');
+    };
+
+    const closePasswordModal = () => {
+        passwordModal.classList.add('hidden');
+        passwordForm.reset();
+        if(passwordError) passwordError.textContent = '';
+    };
+
+    changePasswordBtn.addEventListener('click', openPasswordModal);
+    cancelPasswordBtn.addEventListener('click', closePasswordModal);
+
+    passwordForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        passwordError.textContent = '';
+
+        const newPassword = passwordForm.new_password.value;
+        const confirmPassword = passwordForm.confirm_password.value;
+
+        if (newPassword.length < 6) {
+            passwordError.textContent = 'A senha deve ter no mínimo 6 caracteres.';
+            return;
+        }
+
+        if (newPassword !== confirmPassword) {
+            passwordError.textContent = 'As senhas não coincidem.';
+            return;
+        }
+
+        const { data, error } = await _supabase.auth.updateUser({
+          password: newPassword
+        });
+
+        if (error) {
+            passwordError.textContent = `Erro: ${error.message}`;
+            console.error('Password update error:', error);
+        } else {
+            alert('Senha atualizada com sucesso!');
+            closePasswordModal();
+        }
+    });
+}
