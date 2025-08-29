@@ -46,7 +46,7 @@ const renderInventory = (vehicles) => {
         const card = document.createElement('div');
         card.className = 'bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300 flex flex-col';
         card.innerHTML = `
-            <a href="#" class="block">
+            <a href="vehicle.html?id=${vehicle.id}" class="block">
                 <img src="${imageUrl}" alt="Imagem de ${vehicle.title}" class="w-full h-56 object-cover" onerror="this.onerror=null;this.src='https://via.placeholder.com/400x300.png?text=Imagem+Indispon%C3%ADvel';">
             </a>
             <div class="p-6 flex flex-col flex-grow">
@@ -55,7 +55,7 @@ const renderInventory = (vehicles) => {
                 <div class="mt-4 flex-grow">
                     <p class="text-2xl font-bold text-brand-primary">€${(vehicle.price_eur || 0).toLocaleString('pt-PT')}</p>
                 </div>
-                <a href="#" class="block w-full text-center bg-brand-primary text-white font-bold py-2 px-4 rounded-lg mt-4 hover:bg-blue-700 transition-colors">
+                <a href="vehicle.html?id=${vehicle.id}" class="block w-full text-center bg-brand-primary text-white font-bold py-2 px-4 rounded-lg mt-4 hover:bg-blue-700 transition-colors">
                     Ver Detalhes
                 </a>
             </div>
