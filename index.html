@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miguel Madeira – Car&Moto Solutions</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'brand-dark': '#1A1A1A',
+                        'brand-light': '#F5F5F7',
+                        'brand-primary': '#0055D4',
+                        'brand-gray': '#8A8A8E',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="public/styles/style.css">
+</head>
+<body class="bg-brand-light text-brand-dark font-sans">
+    <header class="bg-brand-light shadow-md">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="text-2xl font-bold text-brand-dark">
+                    <a href="index.html">Miguel Madeira – Car&Moto Solutions</a>
+                </div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="index.html" class="text-brand-gray hover:text-brand-dark">Início</a>
+                    <a href="inventory.html" class="text-brand-gray hover:text-brand-dark">Viaturas</a>
+                    <a href="about.html" class="text-brand-gray hover:text-brand-dark">Sobre Nós</a>
+                    <a href="contact.html" class="text-brand-gray hover:text-brand-dark">Contacto</a>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-brand-dark focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+            </div>
+            <div id="mobile-menu" class="hidden md:hidden mt-4">
+                <a href="index.html" class="block py-2 text-brand-gray hover:text-brand-dark">Início</a>
+                <a href="inventory.html" class="block py-2 text-brand-gray hover:text-brand-dark">Viaturas</a>
+                <a href="about.html" class="block py-2 text-brand-gray hover:text-brand-dark">Sobre Nós</a>
+                <a href="contact.html" class="block py-2 text-brand-gray hover:text-brand-dark">Contacto</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+        <h1 class="text-4xl font-bold text-center">Bem-vindo à Car&Moto Solutions</h1>
+        <p class="text-center mt-4">A sua solução para semi-novos e usados.</p>
+    </main>
+
+    <footer class="bg-brand-dark text-brand-light py-8 mt-12">
+        <div class="container mx-auto px-6 text-center">
+            <p>&copy; 2024 Miguel Madeira – Car&Moto Solutions. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="public/scripts/main.js"></script>
+    <!-- Chatbot Widget -->
+    <div id="chatbot-container" class="fixed bottom-5 right-5 flex flex-col items-end z-50">
+        <!-- Sticky Note -->
+        <div id="chatbot-sticky-note" class="bg-yellow-200 text-gray-800 p-2 rounded-lg shadow-md mb-2 text-sm hidden opacity-0 transition-opacity duration-300">
+            💬 Fala connosco em tempo real
+        </div>
+
+        <!-- Chat Window (hidden by default) -->
+        <div id="chatbot-window" class="w-80 h-96 bg-white rounded-lg shadow-2xl hidden opacity-0 transition-opacity duration-500 flex flex-col">
+            <header class="bg-brand-primary text-white p-3 flex justify-between items-center rounded-t-lg">
+                <h3 class="font-bold">Chat com Assistente</h3>
+                <button id="chat-close-btn" class="text-white hover:text-gray-200 text-2xl leading-none">&times;</button>
+            </header>
+            <main id="chat-messages" class="flex-grow p-4 overflow-y-auto">
+                <div class="bg-gray-200 p-3 rounded-lg self-start max-w-xs text-sm">Olá! Como posso ajudar?</div>
+            </main>
+            <footer class="p-2 border-t">
+                <div class="flex">
+                    <input type="text" id="chat-input" placeholder="Escreva a sua mensagem..." class="flex-grow p-2 border rounded-l-lg focus:outline-none focus:ring-2 focus:ring-brand-primary">
+                    <button id="chat-send-btn" class="bg-brand-primary text-white px-4 rounded-r-lg hover:bg-blue-700">Enviar</button>
+                </div>
+            </footer>
+        </div>
+
+        <!-- Floating Action Button (FAB) -->
+        <button id="chatbot-fab" class="bg-brand-primary text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg text-3xl transform hover:scale-110 transition-transform">
+            💬
+        </button>
+    </div>
+</body>
+</html>
