@@ -54,32 +54,42 @@ document.addEventListener('DOMContentLoaded', () => {
         chatInput.value = '';
         chatInput.disabled = true;
         chatSendBtn.disabled = true;
-        addMessage("A pensar...", 'bot'); // Typing indicator
+        addMessage("A pensar...", 'bot');
+
+        // NOTE: The user can replace this placeholder with their actual key.
+        const UNIQUE_KEY = 'YOUR_UNIQUE_KEY_HERE';
 
         try {
             const response = await fetch(webhookUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: messageText })
+                body: JSON.stringify({
+                    message: messageText,
+                    timestamp: new Date().toISOString(),
+                    key: UNIQUE_KEY,
+                    action: "voice_input", // As per user's code snippet
+                })
             });
 
             // Remove typing indicator
-            chatMessages.removeChild(chatMessages.lastChild);
+            if(chatMessages.lastChild && chatMessages.lastChild.textContent === "A pensar..."){
+                 chatMessages.removeChild(chatMessages.lastChild);
+            }
 
             if (!response.ok) {
                 throw new Error(`Webhook returned status ${response.status}`);
             }
 
             const data = await response.json();
-            const botReply = data.response || "Desculpe, não entendi.";
-            addMessage(botReply, 'bot');
+            const omniResponse = data.output || data.response || data.message || "I received your message!";
+            addMessage(omniResponse, 'bot');
 
         } catch (error) {
             console.error("Error sending message to webhook:", error);
-            if(chatMessages.lastChild.textContent === "A pensar..."){
+            if(chatMessages.lastChild && chatMessages.lastChild.textContent === "A pensar..."){
                  chatMessages.removeChild(chatMessages.lastChild);
             }
-            addMessage("Desculpe, ocorreu um erro de conexão.", 'bot');
+            addMessage("Sorry, I encountered an error processing your request.", 'bot');
         } finally {
             chatInput.disabled = false;
             chatSendBtn.disabled = false;
