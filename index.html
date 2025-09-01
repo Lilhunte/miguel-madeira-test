@@ -56,8 +56,18 @@
     </header>
 
     <main class="container mx-auto px-6 py-12">
-        <h1 class="text-4xl font-bold text-center">Bem-vindo à Car&Moto Solutions</h1>
-        <p class="text-center mt-4">A sua solução para semi-novos e usados.</p>
+        <div class="text-center mb-16">
+            <h1 class="text-4xl md:text-5xl font-bold text-brand-dark">Bem-vindo à Car&Moto Solutions</h1>
+            <p class="text-lg text-brand-gray mt-4">A sua solução para semi-novos e usados.</p>
+        </div>
+
+        <!-- Featured Vehicles Section -->
+        <section id="featured-vehicles">
+            <h2 class="text-3xl font-bold text-center mb-8">Viaturas em Destaque</h2>
+            <div id="featured-vehicles-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Featured vehicle cards will be injected here by main.js -->
+            </div>
+        </section>
     </main>
 
     <footer class="bg-brand-dark text-brand-light py-8 mt-12">
@@ -66,6 +76,8 @@
         </div>
     </footer>
 
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="public/scripts/main.js"></script>
     <!-- Chatbot Widget -->
     <div id="chatbot-container" class="fixed bottom-5 right-5 flex flex-col items-end z-50">
