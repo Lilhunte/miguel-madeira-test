@@ -14,18 +14,19 @@ document.addEventListener('DOMContentLoaded', () => {
         vehicles.forEach(vehicle => {
             const imageUrl = (vehicle.media && vehicle.media.length > 0 && vehicle.media[0].url) ? vehicle.media[0].url.trim() : 'https://via.placeholder.com/400x300.png?text=Car%26Moto+Solutions';
             const card = document.createElement('div');
-            card.className = 'bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300 flex flex-col';
+            card.className = 'bg-gray-900/50 backdrop-blur-sm rounded-lg shadow-lg overflow-hidden ring-1 ring-white/10 flex flex-col transition-all duration-300 hover:ring-brand-primary';
             card.innerHTML = `
-                <a href="vehicle.html?id=${vehicle.id}" class="block">
-                    <img src="${imageUrl}" alt="Imagem de ${vehicle.title}" class="w-full h-56 object-cover" loading="lazy" onerror="this.onerror=null;this.src='https://via.placeholder.com/400x300.png?text=Imagem+Indispon%C3%ADvel';">
+                <a href="vehicle.html?id=${vehicle.id}" class="block overflow-hidden">
+                    <img src="${imageUrl}" alt="Imagem de ${vehicle.title}" class="w-full h-56 object-cover transition-transform duration-300 hover:scale-105" loading="lazy" onerror="this.onerror=null;this.src='https://via.placeholder.com/400x300.png?text=Imagem+Indispon%C3%ADvel';">
                 </a>
                 <div class="p-6 flex flex-col flex-grow">
-                    <h3 class="text-xl font-bold text-brand-dark">${vehicle.title}</h3>
-                    <p class="text-sm text-brand-gray mt-1">${vehicle.year} &bull; ${(vehicle.mileage_km || 0).toLocaleString('pt-PT')} km</p>
-                    <div class="mt-4 flex-grow">
-                        <p class="text-2xl font-bold text-brand-primary">€${(vehicle.price_eur || 0).toLocaleString('pt-PT')}</p>
+                    <h3 class="text-xl font-bold text-brand-light">${vehicle.title}</h3>
+                    <p class="text-2xl font-semibold text-brand-primary mt-2">€${(vehicle.price_eur || 0).toLocaleString('pt-PT')}</p>
+                    <div class="mt-4 flex-grow space-y-2 text-sm text-brand-gray border-t border-white/10 pt-4">
+                        <p class="flex items-center justify-between"><span>Ano:</span> <span class="font-semibold text-brand-light">${vehicle.year || 'N/A'}</span></p>
+                        <p class="flex items-center justify-between"><span>Quilometragem:</span> <span class="font-semibold text-brand-light">${(vehicle.mileage_km || 0).toLocaleString('pt-PT')} km</span></p>
                     </div>
-                    <a href="vehicle.html?id=${vehicle.id}" class="block w-full text-center bg-brand-primary text-white font-bold py-2 px-4 rounded-lg mt-4 hover:bg-blue-700 transition-colors">
+                    <a href="vehicle.html?id=${vehicle.id}" class="block w-full text-center bg-brand-primary text-white font-bold py-3 px-4 rounded-lg mt-6 hover:bg-blue-700 transition-colors">
                         Ver Detalhes
                     </a>
                 </div>

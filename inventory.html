@@ -6,20 +6,18 @@
     <title>Viaturas - Miguel Madeira – Car&Moto Solutions</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
                     colors: {
-                        'brand-dark': '#1A1A1A',
-                        'brand-light': '#F5F5F7',
-                        'brand-primary': '#0055D4',
-                        'brand-gray': '#8A8A8E',
+                        'brand-dark': '#111827',
+                        'brand-light': '#f9fafb',
+                        'brand-primary': '#3b82f6',
+                        'brand-gray': '#9ca3af',
                     }
                 }
             }
@@ -27,62 +25,63 @@
     </script>
     <link rel="stylesheet" href="public/styles/style.css">
 </head>
-<body class="bg-brand-light text-brand-dark font-sans">
-    <header class="bg-brand-light shadow-md">
+<body class="bg-brand-dark text-brand-light font-sans">
+    <header class="bg-brand-dark/70 backdrop-blur-md shadow-lg sticky top-0 z-40">
         <nav class="container mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
-                <div class="text-2xl font-bold text-brand-dark">
-                    <a href="index.html">Miguel Madeira – Car&Moto Solutions</a>
-                </div>
-                <div class="hidden md:flex space-x-6">
-                    <a href="index.html" class="text-brand-gray hover:text-brand-dark">Início</a>
-                    <a href="inventory.html" class="text-brand-gray hover:text-brand-dark">Viaturas</a>
-                    <a href="about.html" class="text-brand-gray hover:text-brand-dark">Sobre Nós</a>
-                    <a href="contact.html" class="text-brand-gray hover:text-brand-dark">Contacto</a>
+                <div class="text-2xl font-black text-brand-light"><a href="index.html">Car&Moto</a></div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="text-brand-gray hover:text-brand-light transition-colors">Início</a>
+                    <a href="inventory.html" class="text-brand-gray hover:text-brand-light transition-colors">Viaturas</a>
+                    <a href="about.html" class="text-brand-gray hover:text-brand-light transition-colors">Sobre Nós</a>
+                    <a href="contact.html" class="text-brand-gray hover:text-brand-light transition-colors">Contacto</a>
                 </div>
                 <div class="md:hidden">
-                    <button id="mobile-menu-button" class="text-brand-dark focus:outline-none">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    <button id="mobile-menu-button" class="text-brand-light focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                     </button>
                 </div>
             </div>
-            <div id="mobile-menu" class="hidden md:hidden mt-4">
-                <a href="index.html" class="block py-2 text-brand-gray hover:text-brand-dark">Início</a>
-                <a href="inventory.html" class="block py-2 text-brand-gray hover:text-brand-dark">Viaturas</a>
-                <a href="about.html" class="block py-2 text-brand-gray hover:text-brand-dark">Sobre Nós</a>
-                <a href="contact.html" class="block py-2 text-brand-gray hover:text-brand-dark">Contacto</a>
+            <div id="mobile-menu" class="hidden md:hidden mt-4 bg-brand-dark/90 rounded-lg p-4">
+                <a href="index.html" class="block py-2 text-brand-gray hover:text-brand-light">Início</a>
+                <a href="inventory.html" class="block py-2 text-brand-gray hover:text-brand-light">Viaturas</a>
+                <a href="about.html" class="block py-2 text-brand-gray hover:text-brand-light">Sobre Nós</a>
+                <a href="contact.html" class="block py-2 text-brand-gray hover:text-brand-light">Contacto</a>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-12">
         <div class="text-center mb-12">
-            <h1 class="text-4xl font-bold text-brand-dark">Nossas Viaturas</h1>
+            <h1 class="text-4xl font-black text-brand-light">Nossas Viaturas</h1>
             <p class="text-brand-gray mt-4">Explore o nosso inventário de carros e motas.</p>
         </div>
 
-        <!-- Filter and Search Bar -->
-        <form id="filter-form" class="bg-white p-6 rounded-lg shadow-md mb-8">
+        <form id="filter-form" class="bg-gray-900/50 backdrop-blur-sm p-6 rounded-lg shadow-lg mb-8 ring-1 ring-white/10">
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 items-end">
-                <!-- Search Input -->
                 <div class="sm:col-span-2 md:col-span-4 lg:col-span-6">
-                    <label for="search-input" class="block text-sm font-medium text-gray-700">Procurar por Marca, Modelo, etc.</label>
-                    <input type="text" id="search-input" name="search" placeholder="Ex: BMW, C200, M1000RR..." class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    <label for="search-input" class="block text-sm font-medium text-brand-gray">Procurar por Marca, Modelo, etc.</label>
+                    <input type="text" id="search-input" name="search" placeholder="Ex: BMW, C200..." class="mt-1 block w-full rounded-md bg-gray-800 border-gray-700 text-brand-light shadow-sm focus:border-brand-primary focus:ring-brand-primary">
                 </div>
-                <!-- Year Min -->
                 <div>
-                    <label for="year-min-filter" class="block text-sm font-medium text-gray-700">De (Ano)</label>
-                    <input type="number" id="year-min-filter" name="year_min" placeholder="1990" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                    <label for="year-min-filter" class="block text-sm font-medium text-brand-gray">De (Ano)</label>
+                    <input type="number" id="year-min-filter" name="year_min" placeholder="1990" class="mt-1 block w-full rounded-md bg-gray-800 border-gray-700 text-brand-light shadow-sm">
                 </div>
-                <!-- Year Max -->
                 <div>
-                    <label for="year-max-filter" class="block text-sm font-medium text-gray-700">Até (Ano)</label>
-                    <input type="number" id="year-max-filter" name="year_max" placeholder="2024" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                    <label for="year-max-filter" class="block text-sm font-medium text-brand-gray">Até (Ano)</label>
+                    <input type="number" id="year-max-filter" name="year_max" placeholder="2024" class="mt-1 block w-full rounded-md bg-gray-800 border-gray-700 text-brand-light shadow-sm">
                 </div>
-                <!-- Fuel Type Filter -->
                 <div>
-                    <label for="fuel-filter" class="block text-sm font-medium text-gray-700">Combustível</label>
-                    <select id="fuel-filter" name="fuel_type" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                    <label for="transmission-filter" class="block text-sm font-medium text-brand-gray">Transmissão</label>
+                    <select id="transmission-filter" name="transmission" class="mt-1 block w-full rounded-md bg-gray-800 border-gray-700 text-brand-light shadow-sm">
+                        <option value="">Todas</option>
+                        <option value="Automatic">Automática</option>
+                        <option value="Manual">Manual</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="fuel-filter" class="block text-sm font-medium text-brand-gray">Combustível</label>
+                    <select id="fuel-filter" name="fuel_type" class="mt-1 block w-full rounded-md bg-gray-800 border-gray-700 text-brand-light shadow-sm">
                         <option value="">Todos</option>
                         <option value="Gasoline">Gasolina</option>
                         <option value="Diesel">Diesel</option>
@@ -90,49 +89,37 @@
                         <option value="Hybrid">Híbrido</option>
                     </select>
                 </div>
-                <!-- Sort Select -->
                 <div>
-                    <label for="sort-select" class="block text-sm font-medium text-gray-700">Ordenar por</label>
-                    <select id="sort-select" name="sort" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                    <label for="sort-select" class="block text-sm font-medium text-brand-gray">Ordenar por</label>
+                    <select id="sort-select" name="sort" class="mt-1 block w-full rounded-md bg-gray-800 border-gray-700 text-brand-light shadow-sm">
                         <option value="created_at.desc">Mais Recentes</option>
                         <option value="price_eur.asc">Preço (Baixo)</option>
                         <option value="price_eur.desc">Preço (Alto)</option>
                         <option value="mileage_km.asc">Quilometragem (Baixa)</option>
                     </select>
                 </div>
-                <!-- Reset Button -->
                 <div>
                     <button type="reset" id="reset-btn" class="w-full bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-700">Limpar</button>
                 </div>
             </div>
         </form>
 
-        <!-- Inventory Grid -->
-        <div id="inventory-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- Vehicle cards will be injected here by inventory.js -->
-        </div>
+        <div id="inventory-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
     </main>
 
-    <footer class="bg-brand-dark text-brand-light py-8 mt-12">
+    <footer class="bg-transparent text-brand-gray py-8 mt-12">
         <div class="container mx-auto px-6 text-center">
             <p>&copy; 2024 Miguel Madeira – Car&Moto Solutions. Todos os direitos reservados.</p>
         </div>
     </footer>
 
-    <!-- Supabase CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- Page-specific script -->
     <script src="public/scripts/inventory.js"></script>
-    <!-- Main script for mobile menu -->
     <script src="public/scripts/main.js"></script>
-    <!-- Chatbot Widget -->
     <div id="chatbot-container" class="fixed bottom-5 right-5 flex flex-col items-end z-50">
-        <!-- Sticky Note -->
         <div id="chatbot-sticky-note" class="bg-yellow-200 text-gray-800 p-2 rounded-lg shadow-md mb-2 text-sm hidden opacity-0 transition-opacity duration-300">
             💬 Fala connosco em tempo real
         </div>
-
-        <!-- Chat Window (hidden by default) -->
         <div id="chatbot-window" class="w-80 h-96 bg-white rounded-lg shadow-2xl hidden opacity-0 transition-opacity duration-500 flex flex-col">
             <header class="bg-brand-primary text-white p-3 flex justify-between items-center rounded-t-lg">
                 <h3 class="font-bold">Chat com Assistente</h3>
@@ -151,8 +138,6 @@
                 </div>
             </footer>
         </div>
-
-        <!-- Floating Action Button (FAB) -->
         <button id="chatbot-fab" class="bg-brand-primary text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg text-3xl transform hover:scale-110 transition-transform">
             💬
         </button>

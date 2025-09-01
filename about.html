@@ -6,20 +6,18 @@
     <title>Sobre Nós - Miguel Madeira – Car&Moto Solutions</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
                     colors: {
-                        'brand-dark': '#1A1A1A',
-                        'brand-light': '#F5F5F7',
-                        'brand-primary': '#0055D4',
-                        'brand-gray': '#8A8A8E',
+                        'brand-dark': '#111827',
+                        'brand-light': '#f9fafb',
+                        'brand-primary': '#3b82f6',
+                        'brand-gray': '#9ca3af',
                     }
                 }
             }
@@ -27,54 +25,62 @@
     </script>
     <link rel="stylesheet" href="public/styles/style.css">
 </head>
-<body class="bg-brand-light text-brand-dark font-sans">
-    <header class="bg-brand-light shadow-md">
+<body class="bg-brand-dark text-brand-light font-sans">
+    <header class="bg-brand-dark/70 backdrop-blur-md shadow-lg sticky top-0 z-40">
         <nav class="container mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
-                <div class="text-2xl font-bold text-brand-dark">
-                    <a href="index.html">Miguel Madeira – Car&Moto Solutions</a>
-                </div>
-                <div class="hidden md:flex space-x-6">
-                    <a href="index.html" class="text-brand-gray hover:text-brand-dark">Início</a>
-                    <a href="inventory.html" class="text-brand-gray hover:text-brand-dark">Viaturas</a>
-                    <a href="about.html" class="text-brand-gray hover:text-brand-dark">Sobre Nós</a>
-                    <a href="contact.html" class="text-brand-gray hover:text-brand-dark">Contacto</a>
+                <div class="text-2xl font-black text-brand-light"><a href="index.html">Car&Moto</a></div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="text-brand-gray hover:text-brand-light transition-colors">Início</a>
+                    <a href="inventory.html" class="text-brand-gray hover:text-brand-light transition-colors">Viaturas</a>
+                    <a href="about.html" class="text-brand-gray hover:text-brand-light transition-colors">Sobre Nós</a>
+                    <a href="contact.html" class="text-brand-gray hover:text-brand-light transition-colors">Contacto</a>
                 </div>
                 <div class="md:hidden">
-                    <button id="mobile-menu-button" class="text-brand-dark focus:outline-none">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    <button id="mobile-menu-button" class="text-brand-light focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                     </button>
                 </div>
             </div>
-            <div id="mobile-menu" class="hidden md:hidden mt-4">
-                <a href="index.html" class="block py-2 text-brand-gray hover:text-brand-dark">Início</a>
-                <a href="inventory.html" class="block py-2 text-brand-gray hover:text-brand-dark">Viaturas</a>
-                <a href="about.html" class="block py-2 text-brand-gray hover:text-brand-dark">Sobre Nós</a>
-                <a href="contact.html" class="block py-2 text-brand-gray hover:text-brand-dark">Contacto</a>
+            <div id="mobile-menu" class="hidden md:hidden mt-4 bg-brand-dark/90 rounded-lg p-4">
+                <a href="index.html" class="block py-2 text-brand-gray hover:text-brand-light">Início</a>
+                <a href="inventory.html" class="block py-2 text-brand-gray hover:text-brand-light">Viaturas</a>
+                <a href="about.html" class="block py-2 text-brand-gray hover:text-brand-light">Sobre Nós</a>
+                <a href="contact.html" class="block py-2 text-brand-gray hover:text-brand-light">Contacto</a>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-12">
-        <h1 class="text-4xl font-bold text-center">A Nossa História</h1>
-        <p class="text-center mt-4 max-w-2xl mx-auto">Informações sobre a empresa, a nossa missão e os serviços que oferecemos. Esta secção será preenchida com o conteúdo fornecido.</p>
+        <div class="text-center mb-16">
+            <h1 class="text-4xl font-black text-brand-light">Sobre a Car&Moto Solutions</h1>
+            <p class="text-brand-gray mt-4 max-w-3xl mx-auto">A nossa paixão por automóveis reflete-se na qualidade e confiança que entregamos a cada cliente.</p>
+        </div>
+
+        <div class="bg-gray-900/50 p-8 rounded-lg ring-1 ring-white/10 space-y-12 backdrop-blur-sm">
+            <div>
+                <h2 class="text-2xl font-bold text-brand-primary">A Nossa Missão</h2>
+                <p class="text-brand-gray mt-4 leading-relaxed">A nossa missão é simples: fornecer aos nossos clientes uma experiência de compra de viaturas excepcional, do início ao fim. Acreditamos que a compra de um carro ou mota deve ser um processo emocionante e transparente. Esforçamo-nos por oferecer um inventário de alta qualidade, preços justos e um serviço ao cliente que vai além das suas expectativas.</p>
+            </div>
+            <div class="border-t border-white/10"></div>
+            <div>
+                <h2 class="text-2xl font-bold text-brand-primary">Os Nossos Serviços</h2>
+                <p class="text-brand-gray mt-4 leading-relaxed">Para além da venda de viaturas semi-novas e usadas, oferecemos um leque completo de serviços para o apoiar em todas as suas necessidades automotivas. Desde soluções de financiamento personalizadas, a garantias completas e um serviço de pós-venda dedicado, estamos consigo a cada passo do caminho.</p>
+            </div>
+        </div>
     </main>
 
-    <footer class="bg-brand-dark text-brand-light py-8 mt-12">
+    <footer class="bg-transparent text-brand-gray py-8 mt-12">
         <div class="container mx-auto px-6 text-center">
             <p>&copy; 2024 Miguel Madeira – Car&Moto Solutions. Todos os direitos reservados.</p>
         </div>
     </footer>
 
     <script src="public/scripts/main.js"></script>
-    <!-- Chatbot Widget -->
     <div id="chatbot-container" class="fixed bottom-5 right-5 flex flex-col items-end z-50">
-        <!-- Sticky Note -->
         <div id="chatbot-sticky-note" class="bg-yellow-200 text-gray-800 p-2 rounded-lg shadow-md mb-2 text-sm hidden opacity-0 transition-opacity duration-300">
             💬 Fala connosco em tempo real
         </div>
-
-        <!-- Chat Window (hidden by default) -->
         <div id="chatbot-window" class="w-80 h-96 bg-white rounded-lg shadow-2xl hidden opacity-0 transition-opacity duration-500 flex flex-col">
             <header class="bg-brand-primary text-white p-3 flex justify-between items-center rounded-t-lg">
                 <h3 class="font-bold">Chat com Assistente</h3>
@@ -93,8 +99,6 @@
                 </div>
             </footer>
         </div>
-
-        <!-- Floating Action Button (FAB) -->
         <button id="chatbot-fab" class="bg-brand-primary text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg text-3xl transform hover:scale-110 transition-transform">
             💬
         </button>
