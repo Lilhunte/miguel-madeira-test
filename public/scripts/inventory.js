@@ -12,12 +12,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const renderInventory = (vehicles) => {
         inventoryGrid.innerHTML = '';
         vehicles.forEach(vehicle => {
-            const imageUrl = (vehicle.media && vehicle.media.length > 0 && vehicle.media[0].url) ? vehicle.media[0].url.trim() : 'https://via.placeholder.com/400x300.png?text=Car%26Moto+Solutions';
+            const primaryMedia = (vehicle.media && vehicle.media.length > 0) ? vehicle.media[0] : null;
+            let mediaElement = `<img src="https://via.placeholder.com/400x300.png?text=Car%26Moto+Solutions" alt="Imagem de ${vehicle.title}" class="w-full h-56 object-cover">`;
+
+            if (primaryMedia) {
+                if (primaryMedia.type.includes('image')) {
+                    mediaElement = `<img src="${primaryMedia.url.trim()}" alt="Imagem de ${vehicle.title}" class="w-full h-56 object-cover transition-transform duration-300 hover:scale-105" loading="lazy" onerror="this.onerror=null;this.src='https://via.placeholder.com/400x300.png?text=Imagem+Indispon%C3%ADvel';">`;
+                } else if (primaryMedia.type.includes('video')) {
+                    mediaElement = `<video src="${primaryMedia.url.trim()}" autoplay muted loop playsinline class="w-full h-56 object-cover transition-transform duration-300 hover:scale-105" loading="lazy"></video>`;
+                }
+            }
+
             const card = document.createElement('div');
             card.className = 'bg-gray-900/50 backdrop-blur-sm rounded-lg shadow-lg overflow-hidden ring-1 ring-white/10 flex flex-col transition-all duration-300 hover:ring-brand-primary';
             card.innerHTML = `
                 <a href="vehicle.html?id=${vehicle.id}" class="block overflow-hidden">
-                    <img src="${imageUrl}" alt="Imagem de ${vehicle.title}" class="w-full h-56 object-cover transition-transform duration-300 hover:scale-105" loading="lazy" onerror="this.onerror=null;this.src='https://via.placeholder.com/400x300.png?text=Imagem+Indispon%C3%ADvel';">
+                    ${mediaElement}
                 </a>
                 <div class="p-6 flex flex-col flex-grow">
                     <h3 class="text-xl font-bold text-brand-light">${vehicle.title}</h3>

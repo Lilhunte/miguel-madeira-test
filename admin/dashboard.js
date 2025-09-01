@@ -144,16 +144,33 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             let vehicleId = id || `veh-${Date.now()}-${vehicleData.make.toLowerCase().replace(/ /g, '-')}`;
             vehicleData.id = vehicleId;
+            // NOTE: Ensure 'images' and 'videos' buckets exist in your Supabase project with public read access.
             if (imageFiles.length > 0) {
-                submitButton.textContent = 'A carregar imagens...';
+                submitButton.textContent = 'A carregar ficheiros...';
+
                 const uploadPromises = Array.from(imageFiles).map(file => {
+                    const fileType = file.type.startsWith('image/') ? 'image' : 'video';
+                    const bucketName = fileType === 'image' ? 'images' : 'videos';
                     const filePath = `public/${vehicleId}/${file.name}`;
-                    return _supabase.storage.from('vehicle-images').upload(filePath, file, { cacheControl: '3600', upsert: true });
+
+                    return _supabase.storage.from(bucketName).upload(filePath, file, {
+                        cacheControl: '3600',
+                        upsert: true
+                    }).then(result => ({ ...result, fileType, bucketName })); // Pass along context
                 });
+
                 const uploadResults = await Promise.all(uploadPromises);
+
                 const uploadErrors = uploadResults.filter(result => result.error);
-                if (uploadErrors.length > 0) { throw new Error(`Error uploading images: ${uploadErrors.map(e => e.error.message).join(', ')}`); }
-                const mediaArray = uploadResults.map(result => ({ type: 'image', url: _supabase.storage.from('vehicle-images').getPublicUrl(result.data.path).data.publicUrl }));
+                if (uploadErrors.length > 0) {
+                    throw new Error(`Error uploading files: ${uploadErrors.map(e => e.error.message).join(', ')}`);
+                }
+
+                const mediaArray = uploadResults.map(result => {
+                    const { data: { publicUrl } } = _supabase.storage.from(result.bucketName).getPublicUrl(result.data.path);
+                    return { type: result.fileType, url: publicUrl };
+                });
+
                 vehicleData.media = mediaArray;
             }
             submitButton.textContent = 'A salvar dados...';

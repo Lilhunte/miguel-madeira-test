@@ -38,11 +38,18 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('vehicle-title').textContent = vehicle.title;
 
         // Populate image gallery
-        const imageUrl = (vehicle.media && vehicle.media.length > 0 && vehicle.media[0].url)
-            ? vehicle.media[0].url.trim()
-            : 'https://via.placeholder.com/800x600.png?text=Imagem+Indispon%C3%ADvel';
-        document.getElementById('main-image').src = imageUrl;
-        document.getElementById('main-image').alt = `Imagem de ${vehicle.title}`;
+        const imageGallery = document.getElementById('image-gallery');
+        const primaryMedia = (vehicle.media && vehicle.media.length > 0) ? vehicle.media[0] : null;
+        let mediaElement = `<img src="https://via.placeholder.com/800x600.png?text=Imagem+Indispon%C3%ADvel" alt="Imagem de ${vehicle.title}" class="w-full h-auto object-cover">`;
+
+        if (primaryMedia) {
+            if (primaryMedia.type.includes('image')) {
+                mediaElement = `<img src="${primaryMedia.url.trim()}" alt="Imagem de ${vehicle.title}" class="w-full h-auto object-cover">`;
+            } else if (primaryMedia.type.includes('video')) {
+                mediaElement = `<video src="${primaryMedia.url.trim()}" controls autoplay muted loop playsinline class="w-full h-auto object-cover"></video>`;
+            }
+        }
+        imageGallery.innerHTML = mediaElement;
 
         // Populate specs
         document.getElementById('spec-price').textContent = `€${(vehicle.price_eur || 0).toLocaleString('pt-PT')}`;
