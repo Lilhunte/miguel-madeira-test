@@ -63,31 +63,41 @@
 
         <!-- Filter and Search Bar -->
         <form id="filter-form" class="bg-white p-6 rounded-lg shadow-md mb-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 items-end">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 items-end">
                 <!-- Search Input -->
-                <div class="md:col-span-3 lg:col-span-2">
-                    <label for="search-input" class="block text-sm font-medium text-gray-700">Procurar</label>
+                <div class="sm:col-span-2 md:col-span-4 lg:col-span-6">
+                    <label for="search-input" class="block text-sm font-medium text-gray-700">Procurar por Marca, Modelo, etc.</label>
                     <input type="text" id="search-input" name="search" placeholder="Ex: BMW, C200, M1000RR..." class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                 </div>
-                <!-- Sort Select -->
+                <!-- Year Min -->
                 <div>
-                    <label for="sort-select" class="block text-sm font-medium text-gray-700">Ordenar por</label>
-                    <select id="sort-select" name="sort" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                        <option value="created_at.desc">Mais Recentes</option>
-                        <option value="price_eur.asc">Preço (Baixo para Alto)</option>
-                        <option value="price_eur.desc">Preço (Alto para Baixo)</option>
-                        <option value="mileage_km.asc">Quilometragem (Baixa para Alta)</option>
-                    </select>
+                    <label for="year-min-filter" class="block text-sm font-medium text-gray-700">De (Ano)</label>
+                    <input type="number" id="year-min-filter" name="year_min" placeholder="1990" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                </div>
+                <!-- Year Max -->
+                <div>
+                    <label for="year-max-filter" class="block text-sm font-medium text-gray-700">Até (Ano)</label>
+                    <input type="number" id="year-max-filter" name="year_max" placeholder="2024" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
                 </div>
                 <!-- Fuel Type Filter -->
                 <div>
                     <label for="fuel-filter" class="block text-sm font-medium text-gray-700">Combustível</label>
-                    <select id="fuel-filter" name="fuel_type" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    <select id="fuel-filter" name="fuel_type" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
                         <option value="">Todos</option>
                         <option value="Gasoline">Gasolina</option>
                         <option value="Diesel">Diesel</option>
                         <option value="Electric">Elétrico</option>
                         <option value="Hybrid">Híbrido</option>
+                    </select>
+                </div>
+                <!-- Sort Select -->
+                <div>
+                    <label for="sort-select" class="block text-sm font-medium text-gray-700">Ordenar por</label>
+                    <select id="sort-select" name="sort" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                        <option value="created_at.desc">Mais Recentes</option>
+                        <option value="price_eur.asc">Preço (Baixo)</option>
+                        <option value="price_eur.desc">Preço (Alto)</option>
+                        <option value="mileage_km.asc">Quilometragem (Baixa)</option>
                     </select>
                 </div>
                 <!-- Reset Button -->

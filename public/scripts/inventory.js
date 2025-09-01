@@ -7,64 +7,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const inventoryGrid = document.getElementById('inventory-grid');
     const filterForm = document.getElementById('filter-form');
     const searchInput = document.getElementById('search-input');
-
-    const fetchInventory = async (filters = {}) => {
-        if (!inventoryGrid) return;
-        inventoryGrid.innerHTML = '<p class="text-center col-span-full text-brand-gray">A carregar viaturas...</p>';
-
-        let query = _supabase
-            .from('vehicles')
-            .select('*')
-            .eq('status', 'available');
-
-        // Apply text search filter
-        if (filters.search) {
-            const searchTerm = `%${filters.search}%`;
-            query = query.or(`title.ilike.${searchTerm},make.ilike.${searchTerm},model.ilike.${searchTerm}`);
-        }
-
-        // Apply fuel type filter
-        if (filters.fuel_type) {
-            query = query.eq('fuel_type', filters.fuel_type);
-        }
-
-        // Apply sorting
-        if (filters.sort) {
-            const [column, order] = filters.sort.split('.');
-            query = query.order(column, { ascending: order === 'asc' });
-        } else {
-            // Default sort
-            query = query.order('created_at', { ascending: false });
-        }
-
-        const { data: vehicles, error } = await query;
-
-        if (error) {
-            console.error('Error fetching inventory:', error);
-            inventoryGrid.innerHTML = `<p class="text-center col-span-full text-red-500">Erro: ${error.message}</p>`;
-            return;
-        }
-
-        if (vehicles.length === 0) {
-            inventoryGrid.innerHTML = '<p class="text-center col-span-full text-brand-gray">Nenhuma viatura encontrada com estes critérios.</p>';
-            return;
-        }
-
-        renderInventory(vehicles);
-    };
+    let allVehicles = []; // Cache for all fetched vehicles
 
     const renderInventory = (vehicles) => {
         inventoryGrid.innerHTML = '';
         vehicles.forEach(vehicle => {
-            const imageUrl = (vehicle.media && vehicle.media.length > 0 && vehicle.media[0].url)
-                ? vehicle.media[0].url.trim()
-                : 'https://via.placeholder.com/400x300.png?text=Car%26Moto+Solutions';
-
+            const imageUrl = (vehicle.media && vehicle.media.length > 0 && vehicle.media[0].url) ? vehicle.media[0].url.trim() : 'https://via.placeholder.com/400x300.png?text=Car%26Moto+Solutions';
             const card = document.createElement('div');
             card.className = 'bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300 flex flex-col';
             card.innerHTML = `
                 <a href="vehicle.html?id=${vehicle.id}" class="block">
-                <img src="${imageUrl}" alt="Imagem de ${vehicle.title}" class="w-full h-56 object-cover" loading="lazy" onerror="this.onerror=null;this.src='https://via.placeholder.com/400x300.png?text=Imagem+Indispon%C3%ADvel';">
+                    <img src="${imageUrl}" alt="Imagem de ${vehicle.title}" class="w-full h-56 object-cover" loading="lazy" onerror="this.onerror=null;this.src='https://via.placeholder.com/400x300.png?text=Imagem+Indispon%C3%ADvel';">
                 </a>
                 <div class="p-6 flex flex-col flex-grow">
                     <h3 class="text-xl font-bold text-brand-dark">${vehicle.title}</h3>
@@ -81,7 +34,56 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // Debounce function to limit how often the search function is called
+    const applyFiltersAndRender = () => {
+        const formData = new FormData(filterForm);
+        const filters = Object.fromEntries(formData.entries());
+        let filteredVehicles = [...allVehicles];
+
+        if (filters.search) {
+            const searchTerm = filters.search.toLowerCase();
+            filteredVehicles = filteredVehicles.filter(v => (v.title && v.title.toLowerCase().includes(searchTerm)) || (v.make && v.make.toLowerCase().includes(searchTerm)) || (v.model && v.model.toLowerCase().includes(searchTerm)));
+        }
+        if (filters.year_min) {
+            filteredVehicles = filteredVehicles.filter(v => v.year && v.year >= parseInt(filters.year_min));
+        }
+        if (filters.year_max) {
+            filteredVehicles = filteredVehicles.filter(v => v.year && v.year <= parseInt(filters.year_max));
+        }
+        if (filters.fuel_type) {
+            filteredVehicles = filteredVehicles.filter(v => v.fuel_type === filters.fuel_type);
+        }
+
+        if (filters.sort) {
+            const [column, order] = filters.sort.split('.');
+            filteredVehicles.sort((a, b) => {
+                if (a[column] === null) return 1;
+                if (b[column] === null) return -1;
+                if (order === 'asc') {
+                    return typeof a[column] === 'string' ? a[column].localeCompare(b[column]) : a[column] - b[column];
+                } else {
+                    return typeof a[column] === 'string' ? b[column].localeCompare(a[column]) : b[column] - a[column];
+                }
+            });
+        }
+
+        if (filteredVehicles.length === 0) {
+            inventoryGrid.innerHTML = '<p class="text-center col-span-full text-brand-gray">Nenhuma viatura encontrada com estes critérios.</p>';
+        } else {
+            renderInventory(filteredVehicles);
+        }
+    };
+
+    const fetchAndCacheInventory = async () => {
+        inventoryGrid.innerHTML = '<p class="text-center col-span-full text-brand-gray">A carregar viaturas...</p>';
+        const { data, error } = await _supabase.from('vehicles').select('*').eq('status', 'available');
+        if (error) {
+            inventoryGrid.innerHTML = `<p class="text-center col-span-full text-red-500">Erro: ${error.message}</p>`;
+            return;
+        }
+        allVehicles = data || [];
+        applyFiltersAndRender();
+    };
+
     const debounce = (func, delay) => {
         let timeout;
         return (...args) => {
@@ -90,28 +92,23 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     };
 
-    const handleFilterChange = () => {
-        const formData = new FormData(filterForm);
-        const filters = Object.fromEntries(formData.entries());
-        fetchInventory(filters);
-    };
-
-    // Use debouncing for the text input to avoid too many API calls
-    searchInput.addEventListener('input', debounce(handleFilterChange, 500));
-
-    // Use change event for select dropdowns
-    filterForm.addEventListener('change', (event) => {
-        if (event.target.tagName === 'SELECT') {
-            handleFilterChange();
+    // Debounced listener for text/number inputs
+    filterForm.addEventListener('input', (event) => {
+        if (event.target.type === 'text' || event.target.type === 'number') {
+            debounce(applyFiltersAndRender, 500)();
         }
     });
 
-    // Handle form reset
-    filterForm.addEventListener('reset', () => {
-        // Needs a slight delay for the form fields to clear before refetching
-        setTimeout(() => fetchInventory(), 0);
+    // Instant listener for select dropdowns
+    filterForm.addEventListener('change', (event) => {
+        if (event.target.tagName === 'SELECT') {
+            applyFiltersAndRender();
+        }
     });
 
-    // Initial fetch
-    fetchInventory();
+    filterForm.addEventListener('reset', () => {
+        setTimeout(applyFiltersAndRender, 0);
+    });
+
+    fetchAndCacheInventory();
 });

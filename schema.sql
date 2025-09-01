@@ -48,3 +48,27 @@ CREATE TRIGGER on_vehicles_updated
 BEFORE UPDATE ON public.vehicles
 FOR EACH ROW
 EXECUTE FUNCTION public.handle_updated_at();
+
+--
+-- ROW LEVEL SECURITY POLICIES
+--
+-- 1. Enable RLS on the table
+ALTER TABLE public.vehicles ENABLE ROW LEVEL SECURITY;
+
+-- 2. Create policy for public read access
+CREATE POLICY "Public vehicles are viewable by everyone."
+ON public.vehicles FOR SELECT
+USING (true);
+
+-- 3. Create policies for authenticated users (admins) to manage data
+CREATE POLICY "Admins can insert vehicles."
+ON public.vehicles FOR INSERT
+WITH CHECK (auth.role() = 'authenticated');
+
+CREATE POLICY "Admins can update vehicles."
+ON public.vehicles FOR UPDATE
+USING (auth.role() = 'authenticated');
+
+CREATE POLICY "Admins can delete vehicles."
+ON public.vehicles FOR DELETE
+USING (auth.role() = 'authenticated');
